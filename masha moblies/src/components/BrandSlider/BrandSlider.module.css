@@ -1,0 +1,89 @@
+.sliderSection {
+  background-color: var(--secondary-color);
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* Fades at the left and right edges for a premium vignette look */
+.sliderSection::before,
+.sliderSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sliderSection::before {
+  left: 0;
+  background: linear-gradient(to right, var(--secondary-color), transparent);
+}
+
+.sliderSection::after {
+  right: 0;
+  background: linear-gradient(to left, var(--secondary-color), transparent);
+}
+
+.sliderContainer {
+  display: flex;
+  width: max-content;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scrollMarquee 30s linear infinite;
+}
+
+.slide {
+  padding: 0 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandText {
+  font-family: var(--font-sans);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--subtext-color);
+  opacity: 0.35;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+}
+
+.brandText:hover {
+  opacity: 1;
+  color: var(--primary-color);
+  text-shadow: var(--glow-primary);
+}
+
+@keyframes scrollMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Speed adjustments for different sizes */
+@media (max-width: 768px) {
+  .brandText {
+    font-size: 1.5rem;
+  }
+  .slide {
+    padding: 0 2rem;
+  }
+  .sliderSection::before,
+  .sliderSection::after {
+    width: 100px;
+  }
+}

@@ -1,0 +1,238 @@
+.section {
+  padding: 8rem 0;
+  background-color: var(--bg-color);
+  position: relative;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tag {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  max-width: 580px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.stepCard {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.stepNum {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  width: 50px;
+  height: 50px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stepTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.stepDesc {
+  font-size: 0.95rem;
+  color: var(--subtext-color);
+}
+
+/* Estimator Panel Styles */
+.estimatorPanel {
+  border-radius: var(--border-radius-lg);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+}
+
+.panelIcon {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+}
+
+.panelHeader h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.8rem;
+}
+
+.formGroup label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--subtext-color);
+  font-weight: 600;
+}
+
+.selectInput {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius-sm);
+  outline: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.selectInput:focus {
+  border-color: var(--primary-color);
+}
+
+.valuationBox {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: var(--border-radius-md);
+  text-align: center;
+  margin-bottom: 1.8rem;
+}
+
+.valLabel {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--subtext-color);
+  margin-bottom: 0.4rem;
+}
+
+.valValue {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.valDisclaimer {
+  font-size: 0.75rem;
+  color: var(--subtext-color);
+  margin-top: 0.4rem;
+}
+
+.features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.features li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--subtext-color);
+}
+
+.listIcon {
+  color: #2ec4b6;
+}
+
+.panelBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary-gradient);
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  box-shadow: var(--glow-primary);
+  transition: all var(--transition-fast);
+}
+
+.panelBtn:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .desc {
+    max-width: 100%;
+  }
+
+  .estimatorPanel {
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  .section {
+    padding: 5rem 0;
+  }
+  .estimatorPanel {
+    padding: 1.5rem;
+  }
+}

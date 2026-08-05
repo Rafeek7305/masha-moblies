@@ -1,0 +1,13 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  width: 100%;
+  position: relative;
+}
+
+.main {
+  flex-grow: 1;
+  width: 100%;
+}

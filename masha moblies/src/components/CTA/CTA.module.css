@@ -1,0 +1,164 @@
+.section {
+  padding: 8rem 0;
+  background-color: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.glowLeft {
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.glowRight {
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.1) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  border-radius: var(--border-radius-lg);
+  padding: 5rem 4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tag {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.desc {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  max-width: 650px;
+  margin-bottom: 3rem;
+}
+
+.btnGroup {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.waBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: #25d366;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+  transition: all var(--transition-fast);
+}
+
+.waBtn:hover {
+  box-shadow: 0 15px 25px rgba(37, 211, 102, 0.4);
+}
+
+.phoneBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: transparent;
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.phoneBtn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-color);
+}
+
+.addressBar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--subtext-color);
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  border-top: 1px solid var(--border-color);
+  padding-top: 2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.mapIcon {
+  color: var(--primary-color);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .title {
+    font-size: 2.8rem;
+  }
+  .card {
+    padding: 4rem 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .title {
+    font-size: 2.2rem;
+  }
+  .section {
+    padding: 5rem 0;
+  }
+  .btnGroup {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .waBtn, .phoneBtn {
+    justify-content: center;
+  }
+  .addressBar {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.4rem;
+  }
+}
