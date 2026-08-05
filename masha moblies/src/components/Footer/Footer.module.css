@@ -1,0 +1,248 @@
+.footer {
+  background-color: var(--secondary-color);
+  border-top: 1px solid var(--border-color);
+  padding: 6rem 0 0;
+  position: relative;
+  width: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+}
+
+.colTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.colTitle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.6rem;
+  width: 30px;
+  height: 2px;
+  background: var(--primary-gradient);
+  border-radius: var(--border-radius-full);
+}
+
+/* Column 1: Brand */
+.brandCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-family: var(--font-sans);
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logoImg {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.logoHighlight {
+  color: var(--primary-color);
+}
+
+.brandDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.socials {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-full);
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--subtext-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.socialBtn:hover {
+  background: var(--primary-gradient);
+  color: #000;
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: var(--glow-primary);
+}
+
+/* Column 2: Links */
+.linksList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.linksList a {
+  color: var(--subtext-color);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: color var(--transition-fast);
+}
+
+.linksList a:hover {
+  color: var(--primary-color);
+}
+
+/* Column 3: Hours */
+.hoursList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hoursList li {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.infoIcon {
+  color: var(--primary-color);
+  flex-shrink: 0;
+  margin-top: 0.2rem;
+}
+
+.days {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-color);
+  display: block;
+}
+
+.time {
+  font-size: 0.95rem;
+  color: var(--subtext-color);
+  margin-top: 0.2rem;
+}
+
+/* Column 4: Contact */
+.contactList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contactList li {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  color: var(--subtext-color);
+  font-family: 'Inter', sans-serif;
+}
+
+.contactList a {
+  color: var(--subtext-color);
+  transition: color var(--transition-fast);
+}
+
+.contactList a:hover {
+  color: var(--primary-color);
+}
+
+.clickable {
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.clickable:hover {
+  color: var(--primary-color) !important;
+}
+
+/* Copyright Bar */
+.copyrightBar {
+  border-top: 1px solid var(--border-color);
+  padding: 2rem 0;
+  background-color: var(--bg-color);
+}
+
+.copyrightContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--subtext-color);
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.legalLinks a {
+  color: var(--subtext-color);
+  transition: color var(--transition-fast);
+}
+
+.legalLinks a:hover {
+  color: var(--primary-color);
+}
+
+.bullet {
+  color: var(--border-color);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1200px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 4rem;
+  }
+  .container {
+    margin-bottom: 3.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .copyrightContainer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}
