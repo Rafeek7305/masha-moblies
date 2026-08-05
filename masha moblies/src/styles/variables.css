@@ -1,0 +1,40 @@
+:root {
+  /* Color Palette */
+  --bg-color: #050816;
+  --secondary-color: #101827;
+  --card-color: #172233;
+  --primary-color: #00D4FF;
+  --accent-color: #FFD166;
+  --text-color: #FFFFFF;
+  --subtext-color: #A0AEC0;
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  /* Gradients */
+  --primary-gradient: linear-gradient(135deg, #00D4FF 0%, #0077FF 100%);
+  --accent-gradient: linear-gradient(135deg, #FFD166 0%, #FF9F1C 100%);
+  --dark-gradient: linear-gradient(180deg, #101827 0%, #050816 100%);
+  --luxury-glow: linear-gradient(180deg, rgba(0, 212, 255, 0.15) 0%, rgba(5, 8, 22, 0) 100%);
+  --glass-gradient: linear-gradient(135deg, rgba(23, 34, 51, 0.7) 0%, rgba(16, 24, 39, 0.4) 100%);
+
+  /* Typography */
+  --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Layout & Spacing */
+  --max-width: 1400px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-full: 9999px;
+
+  /* Shadows & Glows */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --glow-primary: 0 0 25px rgba(0, 212, 255, 0.3);
+  --glow-accent: 0 0 25px rgba(255, 209, 102, 0.2);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
