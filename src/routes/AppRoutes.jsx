@@ -6,7 +6,10 @@ import Products from '../pages/Products/Products';
 import Exchange from '../pages/Exchange/Exchange';
 import AccessoriesPage from '../pages/Accessories/Accessories';
 import Contact from '../pages/Contact/Contact';
-import AdminLogin from '../pages/Admin/AdminLogin';
+import AdminLayout from '../layouts/AdminLayout/AdminLayout';
+import Login from '../pages/Admin/Login/Login';
+import Dashboard from '../pages/Admin/Dashboard/Dashboard';
+import AdminProducts from '../pages/Admin/Products/AdminProducts';
 
 const AppRoutes = () => {
   return (
@@ -17,9 +20,16 @@ const AppRoutes = () => {
         <Route path="exchange" element={<Exchange />} />
         <Route path="accessories" element={<AccessoriesPage />} />
         <Route path="contact" element={<Contact />} />
-        <Route path="admin/login" element={<AdminLogin />} />
         {/* Fallback route */}
         <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+
+      {/* Admin Routes */}
+      <Route path="/admin/login" element={<Login />} />
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="products" element={<AdminProducts />} />
       </Route>
     </Routes>
   );

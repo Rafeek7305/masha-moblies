@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiRefreshCw, FiShoppingCart, FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import { FiRefreshCw, FiShoppingCart, FiCheckCircle, FiXCircle, FiArrowRight } from 'react-icons/fi';
 import styles from './ProductCard.module.css';
 
 const ProductCard = ({ product }) => {
@@ -30,11 +30,16 @@ const ProductCard = ({ product }) => {
     alert(`Viewing details for ${brand} ${model}`);
   };
 
+  const saveAmount = oldPrice && oldPrice > price ? oldPrice - price : 0;
+
   return (
     <motion.div 
       className={`${styles.card} glass`}
-      whileHover={{ y: -8, boxShadow: 'var(--glow-primary)' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      whileHover={{ y: -10 }}
+      transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
     >
       {/* Badges Container */}
       <div className={styles.badgeContainer}>
@@ -49,9 +54,9 @@ const ProductCard = ({ product }) => {
       {/* Stock Status */}
       <div className={styles.stockBadge}>
         {inStock ? (
-          <span className={styles.inStock}><FiCheckCircle /> In Stock</span>
+          <span className={styles.inStock}><span className={styles.pulse}></span> In Stock</span>
         ) : (
-          <span className={styles.outOfStock}><FiXCircle /> Out of Stock</span>
+          <span className={styles.outOfStock}><span className={styles.pulse}></span> Out of Stock</span>
         )}
       </div>
 
@@ -74,9 +79,16 @@ const ProductCard = ({ product }) => {
 
         {/* Pricing */}
         <div className={styles.pricing}>
-          <span className={styles.currentPrice}>{formatPrice(price)}</span>
-          {oldPrice && (
-            <span className={styles.originalPrice}>{formatPrice(oldPrice)}</span>
+          <div className={styles.priceRow}>
+            <span className={styles.currentPrice}>{formatPrice(price)}</span>
+            {oldPrice && (
+              <span className={styles.originalPrice}>{formatPrice(oldPrice)}</span>
+            )}
+          </div>
+          {saveAmount > 0 && (
+            <div className={styles.saveLabel}>
+              You Save {formatPrice(saveAmount)}
+            </div>
           )}
         </div>
 
@@ -84,9 +96,10 @@ const ProductCard = ({ product }) => {
         <motion.button 
           className={styles.actionBtn} 
           onClick={handleCardClick}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.97 }}
         >
-          View Details
+          <span>View Details</span>
+          <FiArrowRight className={styles.btnIcon} />
         </motion.button>
       </div>
     </motion.div>
