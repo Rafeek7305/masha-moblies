@@ -9,7 +9,7 @@ const BrandSlider = () => {
     'Nothing',
     'Xiaomi',
     'Oppo',
-    'Vivo',
+    'Vivo', 
     'Realme',
     'Motorola',
     'Honor',
