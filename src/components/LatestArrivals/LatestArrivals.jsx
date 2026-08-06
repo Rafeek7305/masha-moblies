@@ -87,9 +87,10 @@ const LatestArrivals = () => {
       <div className={`${styles.container} container`}>
         {/* Header */}
         <div className={styles.header}>
-          <div>
+          <div className={styles.headerText}>
             <span className={styles.tag}>Fresh In Store</span>
             <h2 className={styles.title}>Latest Arrivals</h2>
+            <p className={styles.subtitle}>Experience the pinnacle of mobile technology.</p>
           </div>
           <div className={styles.navControls}>
             <button onClick={() => scroll('left')} className={styles.controlBtn} aria-label="Previous">
@@ -112,8 +113,8 @@ const LatestArrivals = () => {
               <motion.div 
                 key={item.id} 
                 className={`${styles.card} glass`}
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
+                whileHover={{ scale: 1.04, y: -8 }}
+                transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 <div className={styles.cardHeader}>
                   <span className={styles.itemTag}>{item.tag}</span>
