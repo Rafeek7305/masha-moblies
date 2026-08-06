@@ -10,7 +10,7 @@ import earbudsImg from '../../assets/images/earbuds.png';
 import chargerImg from '../../assets/images/charger.png';
 import smartwatchImg from '../../assets/images/smartwatch.png';
 import phoneCaseImg from '../../assets/images/iphone15.png'; // Reused for cases representation
-
+ 
 const Accessories = () => {
   const navigate = useNavigate();
 
