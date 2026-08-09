@@ -10,6 +10,7 @@ import AdminLayout from '../layouts/AdminLayout/AdminLayout';
 import Login from '../pages/Admin/Login/Login';
 import Dashboard from '../pages/Admin/Dashboard/Dashboard';
 import AdminProducts from '../pages/Admin/Products/AdminProducts';
+import AdminCategories from '../pages/Admin/Categories/AdminCategories';
 
 const AppRoutes = () => {
   return (
@@ -30,6 +31,7 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="products" element={<AdminProducts />} />
+        <Route path="categories" element={<AdminCategories />} />
       </Route>
     </Routes>
   );

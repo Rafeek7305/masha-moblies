@@ -46,7 +46,7 @@ const Navbar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      alert(`Searching for: ${searchQuery}`);
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchActive(false);
       setSearchQuery('');
     }
