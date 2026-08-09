@@ -130,64 +130,20 @@
   background: rgba(255, 255, 255, 0.03);
 }
 
-.productInfo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.imgPlaceholder {
-  width: 48px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.productThumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.modelName {
+.categoryName {
   font-weight: 700;
   color: #fff;
-  margin-bottom: 0.2rem;
 }
 
-.brandName {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.price {
-  font-weight: 600;
-  color: #fff;
-}
-
-.badge {
+.productCountBadge {
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  border: 1px solid rgba(0, 212, 255, 0.2);
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 700;
   display: inline-block;
-}
-
-.inStock {
-  background: rgba(46, 196, 182, 0.15);
-  color: #2ec4b6;
-  border: 1px solid rgba(46, 196, 182, 0.2);
-}
-
-.outOfStock {
-  background: rgba(231, 29, 54, 0.15);
-  color: #e71d36;
-  border: 1px solid rgba(231, 29, 54, 0.2);
 }
 
 .actions {
@@ -241,7 +197,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   max-height: 90vh;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 212, 255, 0.1);
   overflow: hidden;
@@ -302,7 +258,7 @@
 }
 
 .modalForm::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-color, #00d4ff);
+  background: #00d4ff;
 }
 
 .formGroup {
@@ -317,7 +273,7 @@
   margin-bottom: 0.5rem;
 }
 
-.formInput, .formTextarea {
+.formInput {
   width: 100%;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -330,86 +286,9 @@
   outline: none;
 }
 
-.formInput:focus, .formTextarea:focus {
+.formInput:focus {
   border-color: rgba(0, 212, 255, 0.5);
   background: rgba(255, 255, 255, 0.05);
-}
-
-.formTextarea {
-  resize: vertical;
-  min-height: 80px;
-}
-
-.formSelect {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.8rem 2.2rem 0.8rem 1rem;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 0.95rem;
-  font-family: inherit;
-  transition: all 0.3s ease;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.1em;
-}
-
-.formSelect:focus {
-  border-color: rgba(0, 212, 255, 0.5);
-  background-color: rgba(30, 35, 45, 0.98);
-}
-
-.formSelect option {
-  background-color: #1a1e29;
-  color: #fff;
-  padding: 10px;
-}
-
-.uploadArea {
-  border: 2px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 2rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.uploadArea:hover {
-  border-color: rgba(0, 212, 255, 0.5);
-  background: rgba(0, 212, 255, 0.05);
-}
-
-.uploadIcon {
-  font-size: 2rem;
-  color: #00d4ff;
-  margin-bottom: 0.5rem;
-}
-
-.uploadArea p {
-  font-size: 0.95rem;
-  color: #fff;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-}
-
-.uploadArea span {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.previewImage {
-  max-width: 100%;
-  max-height: 150px;
-  object-fit: contain;
-  border-radius: 8px;
 }
 
 .modalFooter {
@@ -482,6 +361,5 @@
   .modal {
     margin: 1rem;
     max-height: 90vh;
-    overflow-y: auto;
   }
 }
