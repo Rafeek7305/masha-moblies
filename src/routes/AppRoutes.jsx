@@ -11,6 +11,7 @@ import Login from '../pages/Admin/Login/Login';
 import Dashboard from '../pages/Admin/Dashboard/Dashboard';
 import AdminProducts from '../pages/Admin/Products/AdminProducts';
 import AdminCategories from '../pages/Admin/Categories/AdminCategories';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
   return (
@@ -27,11 +28,13 @@ const AppRoutes = () => {
 
       {/* Admin Routes */}
       <Route path="/admin/login" element={<Login />} />
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="products" element={<AdminProducts />} />
-        <Route path="categories" element={<AdminCategories />} />
+      <Route path="/admin" element={<ProtectedRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="categories" element={<AdminCategories />} />
+        </Route>
       </Route>
     </Routes>
   );

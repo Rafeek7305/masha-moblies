@@ -6,19 +6,22 @@ import {
   FiImage, FiStar, FiClock, FiTag, FiMessageSquare,
   FiPhone, FiMapPin, FiSettings, FiLogOut, FiX 
 } from 'react-icons/fi';
+import { useAuth } from '../../../context/AuthContext';
 import styles from './Sidebar.module.css';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
   
   const menuItems = [
     { name: 'Dashboard', icon: <FiGrid />, path: '/admin/dashboard' },
-    { name: 'Products', icon: <FiBox />, path: '/admin/products' },
     { name: 'Categories', icon: <FiList />, path: '/admin/categories' },
+    { name: 'Products', icon: <FiBox />, path: '/admin/products' },
     { name: 'Settings', icon: <FiSettings />, path: '/admin/settings' },
   ];
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     navigate('/admin/login');
   };
 
