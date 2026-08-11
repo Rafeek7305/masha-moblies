@@ -2,15 +2,32 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiMail, FiLock, FiArrowRight } from 'react-icons/fi';
+import { useAuth } from '../../../context/AuthContext';
 import styles from './Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const [error, setError] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // No actual authentication for now, just navigate to dashboard
-    navigate('/admin/dashboard');
+    setError('');
+    setLoading(true);
+    
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    
+    const { error: loginError } = await login(email, password);
+    
+    setLoading(false);
+    
+    if (loginError) {
+      setError('Invalid email or password.');
+    } else {
+      navigate('/admin/dashboard');
+    }
   };
 
   return (
@@ -33,13 +50,15 @@ const Login = () => {
         <form onSubmit={handleLogin} className={styles.form}>
           <div className={styles.inputGroup}>
             <FiMail className={styles.inputIcon} />
-            <input type="email" placeholder="Email address" className={styles.input} required defaultValue="admin@mashamobiles.com" />
+            <input type="email" name="email" placeholder="Email address" className={styles.input} required />
           </div>
 
           <div className={styles.inputGroup}>
             <FiLock className={styles.inputIcon} />
-            <input type="password" placeholder="Password" className={styles.input} required defaultValue="password123" />
+            <input type="password" name="password" placeholder="Password" className={styles.input} required />
           </div>
+
+          {error && <div style={{ color: '#ff4d4d', fontSize: '0.9rem', marginTop: '-0.5rem', marginBottom: '-0.5rem' }}>{error}</div>}
 
           <div className={styles.formActions}>
             <label className={styles.checkboxContainer}>
@@ -55,8 +74,9 @@ const Login = () => {
             className={styles.loginBtn}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            disabled={loading}
           >
-            Sign In <FiArrowRight className={styles.btnIcon} />
+            {loading ? 'Signing in...' : <>Sign In <FiArrowRight className={styles.btnIcon} /></>}
           </motion.button>
         </form>
       </motion.div>
