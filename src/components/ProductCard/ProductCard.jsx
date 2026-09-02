@@ -32,6 +32,13 @@ const ProductCard = ({ product }) => {
 
   const saveAmount = oldPrice && oldPrice > price ? oldPrice - price : 0;
 
+  const isValidSpec = (val) => Boolean(val && val !== 'N/A' && val !== 'None' && String(val).trim() !== '');
+  const validStorage = isValidSpec(storage) ? storage : '';
+  const validRam = isValidSpec(ram) 
+    ? (String(ram).toLowerCase().includes('ram') ? ram : `${ram} RAM`) 
+    : '';
+  const hasSpecs = Boolean(validStorage || validRam);
+
   return (
     <motion.div 
       className={`${styles.card} glass`}
@@ -71,11 +78,14 @@ const ProductCard = ({ product }) => {
         <h3 className={styles.modelName}>{model}</h3>
         
         {/* Specifications */}
-        <div className={styles.specs}>
-          <span>{storage}</span>
-          <span className={styles.separator}>|</span>
-          <span>{ram} RAM</span>
-        </div>
+        {hasSpecs && (
+          <div className={styles.specs}>
+            {validStorage && <span>{validStorage}</span>}
+            {validStorage && validRam && <span className={styles.separator}>|</span>}
+            {validRam && <span>{validRam}</span>}
+          </div>
+        )}
+
 
         {/* Pricing */}
         <div className={styles.pricing}>
