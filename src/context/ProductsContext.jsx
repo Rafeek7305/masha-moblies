@@ -1,134 +1,112 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { 
+  subscribeToProducts, 
+  createProduct, 
+  updateProduct as updateProductService, 
+  deleteProduct as deleteProductService 
+} from '../services/productService';
+import { 
+  subscribeToCategories, 
+  createCategory, 
+  updateCategory as updateCategoryService, 
+  deleteCategory as deleteCategoryService 
+} from '../services/categoryService';
 
 const ProductsContext = createContext();
 
-// Clean slate - no initial dummy products
-const initialProducts = [];
-
-const defaultCategories = [
-  { id: '1', name: 'Smartphones' },
-  { id: '2', name: 'Accessories' }
-];
-
 export const ProductsProvider = ({ children }) => {
-  // Products state with localStorage persistence
-  const [products, setProducts] = useState(() => {
-    const saved = localStorage.getItem('masha_products');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Error parsing saved products, loading defaults.', e);
-      }
-    }
-    return initialProducts;
-  });
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Categories state with localStorage persistence
-  const [categories, setCategories] = useState(() => {
-    const saved = localStorage.getItem('masha_categories');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Error parsing saved categories, loading defaults.', e);
-      }
-    }
-    return defaultCategories;
-  });
-
-  // Sync products to localStorage
   useEffect(() => {
-    localStorage.setItem('masha_products', JSON.stringify(products));
-  }, [products]);
+    // Subscribe to Firestore Products Collection
+    const unsubProducts = subscribeToProducts((data, err) => {
+      if (err) {
+        console.error('Error fetching real-time products:', err);
+        setError(err);
+      } else {
+        // Normalize products so all public components work smoothly
+        const normalized = data.map((p) => {
+          const brand = p.brandName || p.brand || '';
+          const category = p.categoryName || p.category || '';
+          const model = p.model || p.name || '';
+          const stockNum = p.stock !== undefined ? Number(p.stock) : 0;
+          const inStock = p.stock !== undefined ? stockNum > 0 : (p.inStock !== undefined ? p.inStock : true);
+          
+          return {
+            ...p,
+            brand,
+            brandName: brand,
+            category,
+            categoryName: category,
+            model,
+            name: model,
+            stock: stockNum,
+            inStock,
+            exchangeAvailable: p.exchangeAvailable !== undefined ? p.exchangeAvailable : true,
+            storage: (p.storage && p.storage !== 'N/A' && p.storage !== 'None') ? p.storage : '',
+            ram: (p.ram && p.ram !== 'N/A' && p.ram !== 'None') ? p.ram : '',
+            price: Number(p.price) || 0,
+            image: p.image || ''
+          };
+        });
+        setProducts(normalized);
+      }
+      setLoading(false);
+    });
 
-  // Sync categories to localStorage
-  useEffect(() => {
-    localStorage.setItem('masha_categories', JSON.stringify(categories));
-  }, [categories]);
+    // Subscribe to Firestore Categories Collection
+    const unsubCategories = subscribeToCategories((data, err) => {
+      if (err) {
+        console.error('Error fetching real-time categories:', err);
+      } else {
+        setCategories(data);
+      }
+    });
 
-  // Products CRUD handlers
-  const addProduct = (product) => {
-    setProducts((prev) => [
-      {
-        ...product,
-        id: Date.now(),
-        inStock: product.stock > 0
-      },
-      ...prev
-    ]);
-  };
-
-  const deleteProduct = (id) => {
-    setProducts((prev) => prev.filter((p) => p.id !== id));
-  };
-
-  const updateProduct = (id, updatedProduct) => {
-    setProducts((prev) =>
-      prev.map((p) => (p.id === id ? { ...updatedProduct, inStock: updatedProduct.stock > 0 } : p))
-    );
-  };
-
-  // Categories CRUD handlers
-  const addCategory = (name) => {
-    const trimmedName = name.trim();
-    if (!trimmedName) return;
-    
-    // Check if category name already exists (case-insensitive)
-    const exists = categories.some(c => c.name.toLowerCase() === trimmedName.toLowerCase());
-    if (exists) {
-      alert('Category already exists.');
-      return;
-    }
-
-    const newCat = {
-      id: Date.now().toString(),
-      name: trimmedName
+    return () => {
+      unsubProducts();
+      unsubCategories();
     };
-    setCategories((prev) => [...prev, newCat]);
+  }, []);
+
+  // Products CRUD handlers (delegated to Firestore services)
+  const addProduct = async (productData) => {
+    return await createProduct(productData);
   };
 
-  const deleteCategory = (id) => {
-    const categoryToDelete = categories.find((c) => c.id === id);
-    if (categoryToDelete) {
-      setCategories((prev) => prev.filter((c) => c.id !== id));
-      // Reset matching products' category to an empty string to keep page dynamic and error-free
-      setProducts((prev) =>
-        prev.map((p) => (p.category === categoryToDelete.name ? { ...p, category: '' } : p))
-      );
-    }
+  const deleteProduct = async (id) => {
+    return await deleteProductService(id);
   };
 
-  const updateCategory = (id, newName) => {
-    const trimmedName = newName.trim();
-    if (!trimmedName) return;
+  const updateProduct = async (id, updatedProduct) => {
+    return await updateProductService(id, updatedProduct);
+  };
 
-    // Check if name is already taken by another category
-    const exists = categories.some(c => c.id !== id && c.name.toLowerCase() === trimmedName.toLowerCase());
-    if (exists) {
-      alert('Another category with this name already exists.');
-      return;
-    }
+  // Categories CRUD handlers (delegated to Firestore services)
+  const addCategory = async (name, subBrands = []) => {
+    return await createCategory(name, subBrands);
+  };
 
-    const oldCategory = categories.find((c) => c.id === id);
-    if (oldCategory) {
-      setCategories((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, name: trimmedName } : c))
-      );
-      // Re-map all products under the old category name to the new category name
-      setProducts((prev) =>
-        prev.map((p) => (p.category === oldCategory.name ? { ...p, category: trimmedName } : p))
-      );
-    }
+  const deleteCategory = async (id) => {
+    return await deleteCategoryService(id);
+  };
+
+  const updateCategory = async (id, newName, subBrands = []) => {
+    return await updateCategoryService(id, newName, subBrands);
   };
 
   return (
     <ProductsContext.Provider value={{ 
       products, 
+      categories,
+      loading,
+      error,
       addProduct, 
       deleteProduct, 
       updateProduct,
-      categories,
       addCategory,
       deleteCategory,
       updateCategory
@@ -145,3 +123,4 @@ export const useProducts = () => {
   }
   return context;
 };
+

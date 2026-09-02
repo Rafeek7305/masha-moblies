@@ -6,23 +6,35 @@ import { useProducts } from '../../context/ProductsContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
 
 const Products = () => {
-  const { products, categories } = useProducts();
+  const { products, categories, loading } = useProducts();
   const location = useLocation();
   
-  // Extract search query from URL if navigating from search bar
+  // Extract search query & category query from URL
   const queryParams = new URLSearchParams(location.search);
   const urlSearch = queryParams.get('search') || '';
+  const urlCategory = queryParams.get('category') || '';
 
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('default');
 
-  // Sync state if URL search query changes
+  // Sync state if URL query changes
   useEffect(() => {
     if (urlSearch) {
       setSearchQuery(urlSearch);
     }
-  }, [urlSearch]);
+    if (urlCategory) {
+      // Find category matching URL category ID or name
+      const matchedCat = categories.find(
+        c => c.id === urlCategory || c.name.toLowerCase() === urlCategory.toLowerCase()
+      );
+      if (matchedCat) {
+        setSelectedCategory(matchedCat.name);
+      } else {
+        setSelectedCategory(urlCategory);
+      }
+    }
+  }, [urlSearch, urlCategory, categories]);
 
   const handleResetFilters = () => {
     setSelectedCategory('All');
@@ -32,10 +44,21 @@ const Products = () => {
 
   // Filter products
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const pCat = (product.category || product.categoryName || '').toLowerCase();
+    const pBrand = (product.brand || product.brandName || '').toLowerCase();
+    const pModel = (product.model || product.name || '').toLowerCase();
+
+    const matchesCategory = 
+      selectedCategory === 'All' || 
+      pCat === selectedCategory.toLowerCase() ||
+      product.categoryId === selectedCategory;
+
     const matchesSearch = 
-      product.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchQuery.toLowerCase());
+      !searchQuery ||
+      pModel.includes(searchQuery.toLowerCase()) ||
+      pBrand.includes(searchQuery.toLowerCase()) ||
+      pCat.includes(searchQuery.toLowerCase());
+
     return matchesCategory && matchesSearch;
   });
 
@@ -48,6 +71,16 @@ const Products = () => {
       return b.price - a.price;
     }
     return 0; // default order
+  });
+
+  // Build category list for tabs dynamically from Firestore categories + products
+  const categoryTabList = ['All', ...categories.map(c => c.name)];
+  // Add any product categories that might not be in categories collection yet
+  products.forEach(p => {
+    const catName = p.categoryName || p.category;
+    if (catName && !categoryTabList.some(c => c.toLowerCase() === catName.toLowerCase())) {
+      categoryTabList.push(catName);
+    }
   });
 
   return (
@@ -68,10 +101,10 @@ const Products = () => {
         <div className={styles.controlsRow}>
           {/* Category Tabs */}
           <div className={styles.filterTabs}>
-            {['All', ...categories.map(c => c.name)].map((cat) => (
+            {categoryTabList.map((cat) => (
               <button
                 key={cat}
-                className={`${styles.filterBtn} ${selectedCategory === cat ? styles.activeFilter : ''}`}
+                className={`${styles.filterBtn} ${selectedCategory.toLowerCase() === cat.toLowerCase() ? styles.activeFilter : ''}`}
                 onClick={() => setSelectedCategory(cat)}
               >
                 {cat === 'All' ? 'All Products' : cat}
@@ -105,7 +138,11 @@ const Products = () => {
         </div>
 
         {/* Product Cards Grid */}
-        {sortedProducts.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '4rem', color: 'rgba(255,255,255,0.6)' }}>
+            Loading products...
+          </div>
+        ) : sortedProducts.length === 0 ? (
           <div className={styles.emptyState}>
             <FiInbox className={styles.emptyIcon} />
             <h3 className={styles.emptyTitle}>No matching items</h3>
@@ -129,3 +166,4 @@ const Products = () => {
 };
 
 export default Products;
+

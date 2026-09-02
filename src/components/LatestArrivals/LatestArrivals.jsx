@@ -2,70 +2,74 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiChevronLeft, FiChevronRight, FiRefreshCw } from 'react-icons/fi';
 import styles from './LatestArrivals.module.css';
+import { useProducts } from '../../context/ProductsContext';
 
-// Import phone images to reuse
+// Import fallback phone images
 import iphoneImg from '../../assets/images/iphone15.png';
 import s24Img from '../../assets/images/s24ultra.png';
 import oneplusImg from '../../assets/images/oneplus12.png';
 import nothingImg from '../../assets/images/nothing2.png';
 
+const fallbackArrivals = [
+  {
+    id: 'l1',
+    brand: 'Xiaomi',
+    model: 'Xiaomi 14 Ultra',
+    price: 99999,
+    storage: '512GB',
+    tag: 'Leica Optics',
+    image: s24Img,
+  },
+  {
+    id: 'l2',
+    brand: 'Motorola',
+    model: 'Edge 50 Ultra',
+    price: 54999,
+    storage: '512GB',
+    tag: 'Wooden Back',
+    image: oneplusImg,
+  },
+  {
+    id: 'l3',
+    brand: 'Realme',
+    model: 'Realme GT 6',
+    price: 40999,
+    storage: '256GB',
+    tag: 'AI Features',
+    image: nothingImg,
+  },
+  {
+    id: 'l4',
+    brand: 'Apple',
+    model: 'iPhone 15 Plus',
+    price: 79999,
+    storage: '128GB',
+    tag: 'A16 Bionic',
+    image: iphoneImg,
+  },
+  {
+    id: 'l5',
+    brand: 'Nothing',
+    model: 'Nothing Phone (2a)',
+    price: 23999,
+    storage: '256GB',
+    tag: 'Co-Branded',
+    image: nothingImg,
+  },
+];
+
 const LatestArrivals = () => {
+  const { products } = useProducts();
   const [width, setWidth] = useState(0);
   const carousel = useRef();
 
-  const arrivals = [
-    {
-      id: 101,
-      brand: 'Xiaomi',
-      model: 'Xiaomi 14 Ultra',
-      price: 99999,
-      storage: '512GB',
-      tag: 'Leica Optics',
-      image: s24Img, // reuse premium image
-    },
-    {
-      id: 102,
-      brand: 'Motorola',
-      model: 'Edge 50 Ultra',
-      price: 54999,
-      storage: '512GB',
-      tag: 'Wooden Back',
-      image: oneplusImg,
-    },
-    {
-      id: 103,
-      brand: 'Realme',
-      model: 'Realme GT 6',
-      price: 40999,
-      storage: '256GB',
-      tag: 'AI Features',
-      image: nothingImg,
-    },
-    {
-      id: 104,
-      brand: 'Apple',
-      model: 'iPhone 15 Plus',
-      price: 79999,
-      storage: '128GB',
-      tag: 'A16 Bionic',
-      image: iphoneImg,
-    },
-    {
-      id: 105,
-      brand: 'Nothing',
-      model: 'Nothing Phone (2a)',
-      price: 23999,
-      storage: '256GB',
-      tag: 'Co-Branded',
-      image: nothingImg,
-    },
-  ];
+  const arrivals = products.length > 0 ? products.slice(0, 8) : fallbackArrivals;
 
   useEffect(() => {
     if (carousel.current) {
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
     }
-  }, []);
+  }, [arrivals]);
 
   const scroll = (direction) => {
     if (carousel.current) {
@@ -117,20 +121,36 @@ const LatestArrivals = () => {
                 transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
               >
                 <div className={styles.cardHeader}>
-                  <span className={styles.itemTag}>{item.tag}</span>
-                  <span className={styles.exchangeBadge}>
-                    <FiRefreshCw /> Exchange Ok
-                  </span>
+                  <span className={styles.itemTag}>{item.productCode || item.tag || 'New Arrival'}</span>
+                  {item.exchangeAvailable && (
+                    <span className={styles.exchangeBadge}>
+                      <FiRefreshCw /> Exchange Ok
+                    </span>
+                  )}
                 </div>
                 
                 <div className={styles.imageWrapper}>
-                  <img src={item.image} alt={item.model} className={styles.cardImg} />
+                  {item.image ? (
+                    <img src={item.image} alt={item.model} className={styles.cardImg} />
+                  ) : (
+                    <div style={{ color: 'rgba(255,255,255,0.4)', textAlign: 'center', padding: '2rem' }}>No Image</div>
+                  )}
                 </div>
 
                 <div className={styles.cardBody}>
-                  <span className={styles.brandName}>{item.brand}</span>
-                  <h3 className={item.model.length > 15 ? styles.longModelName : styles.modelName}>{item.model}</h3>
-                  <div className={styles.specs}>{item.storage} | Dual SIM</div>
+                  <span className={styles.brandName}>{item.brand || item.brandName}</span>
+                  <h3 className={(item.model || '').length > 15 ? styles.longModelName : styles.modelName}>{item.model}</h3>
+                  {(() => {
+                    const isValid = (v) => Boolean(v && v !== 'N/A' && v !== 'None' && String(v).trim() !== '');
+                    const st = isValid(item.storage) ? item.storage : '';
+                    const rm = isValid(item.ram) ? (String(item.ram).toLowerCase().includes('ram') ? item.ram : `${item.ram} RAM`) : '';
+                    if (!st && !rm) return null;
+                    return (
+                      <div className={styles.specs}>
+                        {st} {st && rm ? '| ' : ''}{rm}
+                      </div>
+                    );
+                  })()}
                   <div className={styles.price}>{formatPrice(item.price)}</div>
                 </div>
               </motion.div>
@@ -143,3 +163,4 @@ const LatestArrivals = () => {
 };
 
 export default LatestArrivals;
+

@@ -5,10 +5,20 @@ import { useProducts } from '../../context/ProductsContext';
 import ProductCard from '../../components/ProductCard/ProductCard';
 
 const AccessoriesPage = () => {
-  const { products } = useProducts();
+  const { products, loading } = useProducts();
 
-  // Filter only accessories
-  const accessories = products.filter(product => product.category === 'Accessories');
+  // Dynamic filter for accessories (matches category names like headset, accessories, audio, charger, cases, etc., or non-smartphone items)
+  const accessories = products.filter(product => {
+    const cat = (product.category || product.categoryName || '').toLowerCase();
+    if (!cat) return true; // show if unassigned or fallback
+    
+    // Explicit smartphone exclusions
+    if (cat.includes('smartphone') || cat.includes('mobile') || cat.includes('phone') && !cat.includes('headphone') && !cat.includes('earphone')) {
+      return false;
+    }
+    
+    return true;
+  });
 
   return (
     <section className={styles.section}>
@@ -25,7 +35,11 @@ const AccessoriesPage = () => {
         </div>
 
         {/* Product Cards Grid */}
-        {accessories.length === 0 ? (
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '4rem', color: 'rgba(255,255,255,0.6)' }}>
+            Loading accessories...
+          </div>
+        ) : accessories.length === 0 ? (
           <div className={styles.emptyState}>
             <FiInbox className={styles.emptyIcon} />
             <h3 className={styles.emptyTitle}>No accessories listed</h3>
@@ -46,3 +60,4 @@ const AccessoriesPage = () => {
 };
 
 export default AccessoriesPage;
+
